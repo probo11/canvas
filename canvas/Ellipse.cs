@@ -10,7 +10,7 @@ namespace canvas
 {
     class Ellipse : Shape, IShape
     {
-        public Ellipse(int x, int y, int width, int height) : base(x, y, width, height)
+        public Ellipse(Point p, int width = 0, int height = 0) : base(p, width, height)
         {
 
         }

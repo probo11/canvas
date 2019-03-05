@@ -10,7 +10,7 @@ namespace canvas
 {
     class Group : Shape, IShape
     {
-        public Group(int x, int y, int width = 0, int height = 0) : base(x, y, width, height)
+        public Group(Point p, int width = 0, int height = 0) : base(p, width, height)
         {
 
         }

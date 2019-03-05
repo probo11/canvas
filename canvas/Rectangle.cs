@@ -10,7 +10,7 @@ namespace canvas
 {
     class Rectangle : Shape, IShape
     {
-        public Rectangle(int x, int y, int width, int height) : base (x, y, width, height)
+        public Rectangle(Point p, int width = 0, int height = 0) : base(p, width, height)
         {
             
         }

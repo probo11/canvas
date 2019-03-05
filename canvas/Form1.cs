@@ -61,7 +61,7 @@ namespace canvas
                 {
                     if (i%2 ==0)
                     {
-                        Shape shape = new Shape(points[i].X, points[i].Y, points[i + 1].X - points[i].X, points[i + 1].Y - points[i].Y);
+                        Shape shape = new Shape(points[i], points[i + 1].X - points[i].X, points[i + 1].Y - points[i].Y);
                         switch (shapes[j])
                         {
                             case 0:
