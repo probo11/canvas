@@ -88,13 +88,17 @@ namespace canvas
         private void canvas_MouseUp(object sender, MouseEventArgs e)
         {
             /**/
-            if(currentAction == 0)
+            switch (currentAction)
             {
-                drawnShapes.Add(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
-            }
-            else if(currentAction == 1)
-            {
-                drawnShapes.Add(new Ellipse(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+                case 0: //draw rectangle
+                    drawnShapes.Add(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+                    break;
+                case 1://draw ellipse
+                    drawnShapes.Add(new Ellipse(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+                    break;
+                case 2://select
+                    
+                    break;
             }
             canvas.Refresh();
             paint = false;
