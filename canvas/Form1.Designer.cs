@@ -32,6 +32,10 @@
             this.elipButton = new System.Windows.Forms.Button();
             this.canvas = new System.Windows.Forms.PictureBox();
             this.seleButton = new System.Windows.Forms.Button();
+            this.moveButton = new System.Windows.Forms.Button();
+            this.plusButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.minButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,11 +79,58 @@
             this.seleButton.UseVisualStyleBackColor = true;
             this.seleButton.Click += new System.EventHandler(this.seleButton_Click);
             // 
+            // moveButton
+            // 
+            this.moveButton.Enabled = false;
+            this.moveButton.Location = new System.Drawing.Point(255, 16);
+            this.moveButton.Name = "moveButton";
+            this.moveButton.Size = new System.Drawing.Size(75, 23);
+            this.moveButton.TabIndex = 7;
+            this.moveButton.Text = "Move";
+            this.moveButton.UseVisualStyleBackColor = true;
+            this.moveButton.Click += new System.EventHandler(this.moveButton_Click);
+            // 
+            // plusButton
+            // 
+            this.plusButton.Enabled = false;
+            this.plusButton.Location = new System.Drawing.Point(1034, 16);
+            this.plusButton.Name = "plusButton";
+            this.plusButton.Size = new System.Drawing.Size(27, 23);
+            this.plusButton.TabIndex = 8;
+            this.plusButton.Text = "+";
+            this.plusButton.UseVisualStyleBackColor = true;
+            this.plusButton.Click += new System.EventHandler(this.plusButton_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.label1.Location = new System.Drawing.Point(977, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(51, 17);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Resize";
+            // 
+            // minButton
+            // 
+            this.minButton.Enabled = false;
+            this.minButton.Location = new System.Drawing.Point(1067, 16);
+            this.minButton.Name = "minButton";
+            this.minButton.Size = new System.Drawing.Size(27, 23);
+            this.minButton.TabIndex = 11;
+            this.minButton.Text = "-";
+            this.minButton.UseVisualStyleBackColor = true;
+            this.minButton.Click += new System.EventHandler(this.minButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1321, 624);
+            this.Controls.Add(this.minButton);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.plusButton);
+            this.Controls.Add(this.moveButton);
             this.Controls.Add(this.seleButton);
             this.Controls.Add(this.canvas);
             this.Controls.Add(this.elipButton);
@@ -89,6 +140,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -97,6 +149,10 @@
         private System.Windows.Forms.Button elipButton;
         private System.Windows.Forms.PictureBox canvas;
         private System.Windows.Forms.Button seleButton;
+        private System.Windows.Forms.Button moveButton;
+        private System.Windows.Forms.Button plusButton;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button minButton;
     }
 }
 
