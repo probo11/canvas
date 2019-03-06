@@ -14,11 +14,9 @@ namespace canvas
     {
 
         Boolean paint = false;
-        int action = 0;
-
-        List<Point> points = new List<Point>();
-        List<int> shapes = new List<int>();
-
+        int currentAction = 0;
+        Point tempPoint;
+        List<Shape> drawnShapes = new List<Shape>(); // 
 
         public Form1()
         {
@@ -27,17 +25,17 @@ namespace canvas
 
         private void rectButton_Click(object sender, EventArgs e)
         {
-            action = 0;
+            currentAction = 0;
         }
 
         private void elipButton_Click(object sender, EventArgs e)
         {
-            action = 1;
+            currentAction = 1;
         }
 
         private void seleButton_Click(object sender, EventArgs e)
         {
-            action = 2;
+            currentAction = 2;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -54,49 +52,29 @@ namespace canvas
             {
                 Graphics g = e.Graphics;
                 Pen pen = new Pen(Color.Black);
-                int i = 0;
-                int j = 0;
 
-                foreach (var item in points)
+                /**/
+                Point p = new Point(); 
+                p.X = 1; 
+                p.Y = 2;
+                Rectangle re = new Rectangle(p, 0, 0);
+                Ellipse el = new Ellipse(p, 0, 0);
+
+                foreach (var item in drawnShapes)
                 {
-                    if (i%2 ==0)
+                    
+                    if(item.GetType() == re.GetType())
                     {
-                        Shape shape = new Shape(points[i], points[i + 1].X - points[i].X, points[i + 1].Y - points[i].Y);
-                        switch (shapes[j])
-                        {
-                            case 0:
-                                //g.DrawRectangle(pen, points[i].X, points[i].Y, points[i + 1].X - points[i].X, points[i + 1].Y - points[i].Y);
-
-                                
-                                DrawShapes(pen, g, shape.GetShapeData(), true);
-                                
-                                break;
-                            case 1:
-                                // g.DrawEllipse(pen, points[i].X, points[i].Y, points[i + 1].X - points[i].X, points[i + 1].Y - points[i].Y);
-                               
-                                DrawShapes(pen, g, shape.GetShapeData(), false);
-                                break;
-                            case 2:
-                                //selecteer
-                                MessageBox.Show(MousePosition.X.ToString() + ";" + MousePosition.Y.ToString());
-                                int closestX = 1000000;
-                                int closestY = 1000000;
-                                foreach (var itm in points)
-                                {
-                                    if (itm.X < closestX)
-                                    {
-                                        closestX = itm.X;
-                                    }
-                                    if (itm.Y < closestY)
-                                    {
-                                        closestY = itm.Y;
-                                    }
-                                }
-                                break;
-                        }
-                        j++;
+                        DrawShapes(pen, g, item.GetShapeData(), true);
                     }
-                    i++;
+                    else if(item.GetType() == el.GetType())
+                    {
+                        DrawShapes(pen, g, item.GetShapeData(), false);
+                    }
+                    else
+                    {
+                        MessageBox.Show(MousePosition.X.ToString() + ";" + MousePosition.Y.ToString());
+                    }
                 }
             }
         }
@@ -104,16 +82,22 @@ namespace canvas
         private void canvas_MouseDown(object sender, MouseEventArgs e)
         {
             paint = true;
-            points.Add(e.Location);
+            tempPoint = e.Location;
         }
 
         private void canvas_MouseUp(object sender, MouseEventArgs e)
         {
-            points.Add(e.Location);
-            shapes.Add(action);
+            /**/
+            if(currentAction == 0)
+            {
+                drawnShapes.Add(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+            }
+            else if(currentAction == 1)
+            {
+                drawnShapes.Add(new Ellipse(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+            }
             canvas.Refresh();
             paint = false;
-
         }
 
 
@@ -131,3 +115,4 @@ namespace canvas
         }
     }
 }
+

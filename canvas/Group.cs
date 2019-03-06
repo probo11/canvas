@@ -11,6 +11,7 @@ namespace canvas
     class Group : Shape, IShape
     {
         List<Shape> groupContent = new List<Shape>(); 
+
         public Group(Point p, int width = 0, int height = 0) : base(p, width, height)
         {
 
