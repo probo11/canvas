@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,6 @@ namespace canvas
 {
     public partial class Form1 : Form
     {
-        int count = 0;
         Boolean paint = false;
         int currentAction = 0;
         Point tempPoint;
@@ -21,15 +21,20 @@ namespace canvas
         public Form1()
         {
             InitializeComponent();
+            this.MaximizeBox = false;
         }
 
         private void rectButton_Click(object sender, EventArgs e)
         {
+            DeselectAll();
+            RefreshCanvas();
             currentAction = 0;
         }
 
         private void elipButton_Click(object sender, EventArgs e)
         {
+            DeselectAll();
+            RefreshCanvas();
             currentAction = 1;
         }
 
@@ -87,6 +92,7 @@ namespace canvas
             {
                 Graphics g = e.Graphics;
                 Pen pen = new Pen(Color.Black);
+                Pen penSelected = new Pen(Color.Red);
 
                 /**/
                 Point p = new Point();
@@ -97,18 +103,31 @@ namespace canvas
 
                 foreach (var item in drawnShapes)
                 {
-
-                    if (item.GetType() == re.GetType())
+                    if (item.GetIsSelected())
                     {
-                        DrawShapes(pen, g, item.GetShapeData(), true);
-                    }
-                    else if (item.GetType() == el.GetType())
-                    {
-                        DrawShapes(pen, g, item.GetShapeData(), false);
+                        if (item.GetType() == re.GetType())
+                        {
+                            DrawShapes(penSelected, g, item.GetShapeData(), true);
+                        }
+                        else if (item.GetType() == el.GetType())
+                        {
+                            DrawShapes(penSelected, g, item.GetShapeData(), false);
+                        }
                     }
                     else
-                    {
-                        MessageBox.Show(MousePosition.X.ToString() + ";" + MousePosition.Y.ToString());
+                    {// if the item is not selected
+                        if (item.GetType() == re.GetType())
+                        {
+                            DrawShapes(pen, g, item.GetShapeData(), true);
+                        }
+                        else if (item.GetType() == el.GetType())
+                        {
+                            DrawShapes(pen, g, item.GetShapeData(), false);
+                        }
+                        else
+                        {
+                            MessageBox.Show(MousePosition.X.ToString() + ";" + MousePosition.Y.ToString());
+                        }
                     }
                 }
             }
@@ -159,20 +178,21 @@ namespace canvas
                     drawnShapes.Add(new Ellipse(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
                     break;
                 case 2://select
-                    
                     foreach (var shape in drawnShapes)
                     {
                         if (e.X >= shape.GetX() && e.X <= shape.GetX() + shape.GetWidth())
                         {
                             if (e.Y >= shape.GetY() && e.Y <= shape.GetY() + shape.GetHeight())
                             {
-                                count++;
-                                shape.SetIsSelected(true);
-                                EnableButtons();
-                                if (count > 1)
+                                if (shape.GetIsSelected())
                                 {
-                                    DisableButtons();
+                                    shape.SetIsSelected(false);
                                 }
+                                else
+                                {
+                                    shape.SetIsSelected(true);
+                                }
+                                EnableButtons();
                             }
                         }
                     }
@@ -220,6 +240,65 @@ namespace canvas
             }
 
         }
+
+        private void DeselectAll()
+        {
+            foreach (var item in drawnShapes)
+            {
+                item.SetIsSelected(false);
+            }
+        }
+
+        private void RefreshCanvas()
+        {
+            paint = true;
+            canvas.Refresh();
+            paint = false;
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Stream stream = null;
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Yolo files (*.yolo)|*.yolo",
+                Title = "Open file."
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    if ((stream = openFileDialog.OpenFile()) != null)
+                    {
+                        
+                        using (StreamReader sr = new StreamReader(stream))
+                        {
+                            do
+                            {
+                                string[] txt = sr.ReadLine().Split(' ');
+                                Point point = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
+                                PaintEventArgs a;
+                                Graphics eb = a.Graphics;
+                                if (txt[0] == "rectangle")
+                                {
+                                    DrawShapes(new Pen(Color.Black), eb, new Rectangle(point, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
+                                }
+                                
+                            } while (sr.EndOfStream == false);
+                        }
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Couldn't open the file please try again.");
+                }
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
-
