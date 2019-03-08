@@ -137,6 +137,7 @@ namespace canvas
         {
             paint = true;
             tempPoint = e.Location;
+            //MessageBox.Show(e.X +" " + e.Y);
         }
 
         private void canvas_MouseUp(object sender, MouseEventArgs e)
@@ -277,12 +278,18 @@ namespace canvas
                             do
                             {
                                 string[] txt = sr.ReadLine().Split(' ');
-                                Point point = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
-                                PaintEventArgs a;
-                                Graphics eb = a.Graphics;
+                                Graphics eb= canvas.CreateGraphics();
+                                int[] shape = { Int32.Parse(txt[1]), Int32.Parse(txt[2]), Int32.Parse(txt[3]), Int32.Parse(txt[4]) };
+                                Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
                                 if (txt[0] == "rectangle")
                                 {
-                                    DrawShapes(new Pen(Color.Black), eb, new Rectangle(point, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
+                                    DrawShapes(new Pen(Color.Black), eb, shape, true);
+                                    drawnShapes.Add(new Rectangle(p, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
+                                }
+                                else if (txt[0] == "ellipse")
+                                {
+                                    DrawShapes(new Pen(Color.Black), eb, shape, false);
+                                    drawnShapes.Add(new Ellipse(p, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
                                 }
                                 
                             } while (sr.EndOfStream == false);
