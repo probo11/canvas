@@ -262,7 +262,7 @@ namespace canvas
             Stream stream = null;
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
-                Filter = "Yolo files (*.yolo)|*.yolo",
+                Filter = "Yolo file (*.yolo)|*.yolo",
                 Title = "Open file."
             };
 
@@ -270,6 +270,8 @@ namespace canvas
             {
                 try
                 {
+                    drawnShapes.RemoveRange(0, drawnShapes.Count);
+                    canvas.Refresh();
                     if ((stream = openFileDialog.OpenFile()) != null)
                     {
                         
@@ -305,7 +307,32 @@ namespace canvas
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // foreach shape in drawnshapes
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Yolo file (*.yolo)|*.yolo",
+                Title = "Save file."
+            };
 
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {//iets doen met savefiledialog.filename
+                    using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        foreach (var shape in drawnShapes)
+                        {
+                            streamWriter.WriteLine(/*hier moet shapetype x y width height*/);
+                        }
+                    }
+
+                }
+                catch
+                {
+                    MessageBox.Show("Couldn't save the file please try again.");
+                }
+            }
         }
     }
 }
