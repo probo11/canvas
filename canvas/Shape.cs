@@ -77,5 +77,10 @@ namespace canvas
         {
             this.width = width;
         }
+
+        public string GetShapeType()
+        {
+            return GetType().ToString().Substring(7).ToLower();
+        }
     }
 }

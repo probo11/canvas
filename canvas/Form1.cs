@@ -318,12 +318,12 @@ namespace canvas
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
-                {//iets doen met savefiledialog.filename
+                {
                     using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName))
                     {
                         foreach (var shape in drawnShapes)
                         {
-                            streamWriter.WriteLine(/*hier moet shapetype x y width height*/);
+                            streamWriter.WriteLine(shape.GetShapeType() + " " + shape.GetX() + " " + shape.GetY() + " " + shape.GetWidth() + " " + shape.GetHeight());
                         }
                     }
 
