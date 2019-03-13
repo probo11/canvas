@@ -13,15 +13,19 @@ namespace canvas
 {
     public partial class Form1 : Form
     {
+
         Boolean paint = false;
         int currentAction = 0;
         Point tempPoint;
-        List<Shape> drawnShapes = new List<Shape>();
+        Invoker inv = new Invoker();
 
         public Form1()
         {
             InitializeComponent();
             this.MaximizeBox = false;
+
+            
+
         }
 
         private void rectButton_Click(object sender, EventArgs e)
@@ -50,7 +54,7 @@ namespace canvas
 
         private void plusButton_Click(object sender, EventArgs e)
         {
-            foreach (var shape in drawnShapes)
+            foreach (var shape in Singleton.GetDrawnShapes())
             {
                 if (shape.GetIsSelected())
                 {
@@ -65,7 +69,7 @@ namespace canvas
 
         private void minButton_Click(object sender, EventArgs e)
         {
-            foreach (var shape in drawnShapes)
+            foreach (var shape in Singleton.GetDrawnShapes())
             {
                 if (shape.GetIsSelected())
                 {
@@ -86,7 +90,7 @@ namespace canvas
             this.Controls.Add(canvas);
         }
 
-        private void canvas_Paint(object sender, PaintEventArgs e)
+        private void canvas_Paint(object sender, PaintEventArgs e) //hier vindt het tekenen plaats
         {
             if (paint)
             {
@@ -101,7 +105,7 @@ namespace canvas
                 Rectangle re = new Rectangle(p, 0, 0);
                 Ellipse el = new Ellipse(p, 0, 0);
 
-                foreach (var item in drawnShapes)
+                foreach (var item in Singleton.GetDrawnShapes())
                 {
                     if (item.GetIsSelected())
                     {
@@ -148,7 +152,8 @@ namespace canvas
                 case 0://draw rectangle
                     if (e.Location.X > tempPoint.X && e.Location.Y > tempPoint.Y)// draggen rechtsonder
                     {
-                        drawnShapes.Add(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+                        Singleton.AddToDrawnShapes(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+
                     }
                     else if (e.Location.X < tempPoint.X && e.Location.Y > tempPoint.Y) // draggen linksonder
                     {
@@ -157,13 +162,13 @@ namespace canvas
                         int height = e.Location.Y - tempPoint.Y;
                         temp.X = tempPoint.X - width;
                         temp.Y = e.Location.Y - height;
-                        drawnShapes.Add(new Rectangle(temp, width, height));
+                        Singleton.AddToDrawnShapes(new Rectangle(temp, width, height));
                     }
                     else if (e.Location.X < tempPoint.X && e.Location.Y < tempPoint.Y) //draggen linksboven
                     {
                         int width = tempPoint.X - e.Location.X;
                         int height = tempPoint.Y - e.Location.Y;
-                        drawnShapes.Add(new Rectangle(e.Location, width, height));
+                        Singleton.AddToDrawnShapes(new Rectangle(e.Location, width, height));
                     }
                     else
                     {
@@ -172,14 +177,15 @@ namespace canvas
                         int height = tempPoint.Y - e.Location.Y;
                         temp.X = tempPoint.X;
                         temp.Y = e.Location.Y;
-                        drawnShapes.Add(new Rectangle(temp, width, height));
+                        Singleton.AddToDrawnShapes(new Rectangle(temp, width, height));
                     }
                     break;
                 case 1://draw ellipse
-                    drawnShapes.Add(new Ellipse(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+                    //Singleton.AddToDrawnShapes();
+                    inv.DoAction(new CreateEllipse(new Ellipse(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y)));
                     break;
                 case 2://select
-                    foreach (var shape in drawnShapes)
+                    foreach (var shape in Singleton.GetDrawnShapes())
                     {
                         if (e.X >= shape.GetX() && e.X <= shape.GetX() + shape.GetWidth())
                         {
@@ -199,7 +205,7 @@ namespace canvas
                     }
                     break;
                 case 3:
-                    foreach (var shape in drawnShapes)
+                    foreach (var shape in Singleton.GetDrawnShapes())
                     {
                         if (shape.GetIsSelected())
                         {
@@ -214,6 +220,8 @@ namespace canvas
             canvas.Refresh();
             paint = false;
         }
+
+        
 
         void DisableButtons()
         {
@@ -244,7 +252,7 @@ namespace canvas
 
         private void DeselectAll()
         {
-            foreach (var item in drawnShapes)
+            foreach (var item in Singleton.GetDrawnShapes())
             {
                 item.SetIsSelected(false);
             }
@@ -256,9 +264,10 @@ namespace canvas
             canvas.Refresh();
             paint = false;
         }
-
+        
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+        
             Stream stream = null;
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
@@ -270,11 +279,10 @@ namespace canvas
             {
                 try
                 {
-                    drawnShapes.RemoveRange(0, drawnShapes.Count);
+                    Singleton.ClearAllActions();
                     canvas.Refresh();
                     if ((stream = openFileDialog.OpenFile()) != null)
                     {
-                        
                         using (StreamReader sr = new StreamReader(stream))
                         {
                             do
@@ -286,12 +294,12 @@ namespace canvas
                                 if (txt[0] == "rectangle")
                                 {
                                     DrawShapes(new Pen(Color.Black), eb, shape, true);
-                                    drawnShapes.Add(new Rectangle(p, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
+                                    Singleton.AddToDrawnShapes(new Rectangle(p, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
                                 }
                                 else if (txt[0] == "ellipse")
                                 {
                                     DrawShapes(new Pen(Color.Black), eb, shape, false);
-                                    drawnShapes.Add(new Ellipse(p, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
+                                    Singleton.AddToDrawnShapes(new Ellipse(p, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
                                 }
                                 
                             } while (sr.EndOfStream == false);
@@ -321,7 +329,7 @@ namespace canvas
                 {
                     using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName))
                     {
-                        foreach (var shape in drawnShapes)
+                        foreach (var shape in Singleton.GetDrawnShapes())
                         {
                             streamWriter.WriteLine(shape.GetShapeType() + " " + shape.GetX() + " " + shape.GetY() + " " + shape.GetWidth() + " " + shape.GetHeight());
                         }
@@ -330,9 +338,22 @@ namespace canvas
                 }
                 catch
                 {
-                    MessageBox.Show("Couldn't save the file please try again.");
+                    MessageBox.Show("Couldn't save the file, please try again.");
                 }
             }
+            
+        }
+
+        private void button1_Click(object sender, EventArgs e)//undo
+        {
+            Singleton.UndoAction();
+            RefreshCanvas();
+        }
+
+        private void button2_Click(object sender, EventArgs e)//redo
+        {
+            Singleton.RedoAction();
+            RefreshCanvas();
         }
     }
 }
