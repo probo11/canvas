@@ -55,8 +55,8 @@ namespace canvas
             {
                 if (shape.GetIsSelected())
                 {
-                    shape.SetHeight(shape.GetHeight() + 5);
-                    shape.SetWidth(shape.GetWidth() + 5);
+                    Singleton.EmptyRedoList();
+                    inv.DoAction(new IncreaseShapeSize(shape));
                 }
             }
             paint = true;
@@ -70,8 +70,8 @@ namespace canvas
             {
                 if (shape.GetIsSelected())
                 {
-                    shape.SetHeight(shape.GetHeight() - 5);
-                    shape.SetWidth(shape.GetWidth() - 5);
+                    Singleton.EmptyRedoList();
+                    inv.DoAction(new DecreaseShapeSize(shape));
                 }
             }
             paint = true;
@@ -83,7 +83,7 @@ namespace canvas
         {
             canvas.BackColor = Color.White;
             canvas.Paint += new PaintEventHandler(this.canvas_Paint);
-
+            Singleton.SetCanvas(canvas.CreateGraphics());
             this.Controls.Add(canvas);
         }
 
@@ -138,18 +138,15 @@ namespace canvas
         {
             paint = true;
             tempPoint = e.Location;
-            //MessageBox.Show(e.X +" " + e.Y);
         }
 
         private void canvas_MouseUp(object sender, MouseEventArgs e)
         {
-            /**/
             switch (currentAction)
             {
                 case 0://draw rectangle
                     if (e.Location.X > tempPoint.X && e.Location.Y > tempPoint.Y)// draggen rechtsonder
                     {
-                        //Singleton.AddToDrawnShapes(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
                         Singleton.EmptyRedoList();
                         inv.DoAction(new CreateRectangle(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y)));
 
@@ -161,7 +158,6 @@ namespace canvas
                         int height = e.Location.Y - tempPoint.Y;
                         temp.X = tempPoint.X - width;
                         temp.Y = e.Location.Y - height;
-                        //Singleton.AddToDrawnShapes(new Rectangle(temp, width, height));
                         Singleton.EmptyRedoList();
                         inv.DoAction(new CreateRectangle(new Rectangle(temp, width, height)));
                     }
@@ -169,7 +165,6 @@ namespace canvas
                     {
                         int width = tempPoint.X - e.Location.X;
                         int height = tempPoint.Y - e.Location.Y;
-                        //Singleton.AddToDrawnShapes(new Rectangle(e.Location, width, height));
                         Singleton.EmptyRedoList();
                         inv.DoAction(new CreateRectangle(new Rectangle(e.Location, width, height)));
                     }
@@ -180,7 +175,6 @@ namespace canvas
                         int height = tempPoint.Y - e.Location.Y;
                         temp.X = tempPoint.X;
                         temp.Y = e.Location.Y;
-                        //Singleton.AddToDrawnShapes(new Rectangle(temp, width, height));
                         Singleton.EmptyRedoList();
                         inv.DoAction(new CreateRectangle(new Rectangle(temp, width, height)));
                     }
@@ -226,8 +220,6 @@ namespace canvas
             paint = false;
         }
 
-        
-
         void DisableButtons()
         {
             moveButton.Enabled = false;
@@ -269,84 +261,17 @@ namespace canvas
             canvas.Refresh();
             paint = false;
         }
-        
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        
-            Stream stream = null;
-            OpenFileDialog openFileDialog = new OpenFileDialog()
-            {
-                Filter = "Yolo file (*.yolo)|*.yolo",
-                Title = "Open file."
-            };
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    Singleton.ClearAllActions();
-                    canvas.Refresh();
-                    if ((stream = openFileDialog.OpenFile()) != null)
-                    {
-                        using (StreamReader sr = new StreamReader(stream))
-                        {
-                            do
-                            {
-                                string[] txt = sr.ReadLine().Split(' ');
-                                Graphics eb= canvas.CreateGraphics();
-                                int[] shape = { Int32.Parse(txt[1]), Int32.Parse(txt[2]), Int32.Parse(txt[3]), Int32.Parse(txt[4]) };
-                                Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
-                                if (txt[0] == "rectangle")
-                                {
-                                    DrawShapes(new Pen(Color.Black), eb, shape, true);
-                                    Singleton.AddToDrawnShapes(new Rectangle(p, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
-                                }
-                                else if (txt[0] == "ellipse")
-                                {
-                                    DrawShapes(new Pen(Color.Black), eb, shape, false);
-                                    Singleton.AddToDrawnShapes(new Ellipse(p, Int32.Parse(txt[3]), Int32.Parse(txt[4])));
-                                }
-                                
-                            } while (sr.EndOfStream == false);
-                        }
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Couldn't open the file please try again.");
-                }
-            }
+            inv.DoAction(new OpenFile());
+            RefreshCanvas();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // foreach shape in drawnshapes
-            SaveFileDialog saveFileDialog = new SaveFileDialog()
-            {
-                Filter = "Yolo file (*.yolo)|*.yolo",
-                Title = "Save file."
-            };
-
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName))
-                    {
-                        foreach (var shape in Singleton.GetDrawnShapes())
-                        {
-                            streamWriter.WriteLine(shape.GetShapeType() + " " + shape.GetX() + " " + shape.GetY() + " " + shape.GetWidth() + " " + shape.GetHeight());
-                        }
-                    }
-
-                }
-                catch
-                {
-                    MessageBox.Show("Couldn't save the file, please try again.");
-                }
-            }
-            
+            inv.DoAction(new SaveFile());
+            RefreshCanvas();
         }
 
         private void button1_Click(object sender, EventArgs e)//undo

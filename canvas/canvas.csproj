@@ -49,6 +49,10 @@
     <Compile Include="CommandPattern\Command.cs" />
     <Compile Include="CommandPattern\CreateEllipse.cs" />
     <Compile Include="CommandPattern\CreateRectangle.cs" />
+    <Compile Include="CommandPattern\DecreaseShapeSize.cs" />
+    <Compile Include="CommandPattern\IncreaseShapeSize.cs" />
+    <Compile Include="CommandPattern\OpenFile.cs" />
+    <Compile Include="CommandPattern\SaveFile.cs" />
     <Compile Include="Shapes\Ellipse.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

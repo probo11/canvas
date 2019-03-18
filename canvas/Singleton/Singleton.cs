@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace canvas
         private static List<Command> doneActions = new List<Command>();
         private static List<Command> redoActions = new List<Command>();
         private static List<Shape> drawnShapes = new List<Shape>();
+        private static Graphics canvas;
 
         private Singleton() { }
 
@@ -94,6 +96,16 @@ namespace canvas
         public static void ClearDrawnShapes()
         {
             drawnShapes.Clear();
+        }
+
+        public static Graphics GetCanvas()
+        {
+            return canvas;
+        }
+
+        public static void SetCanvas(Graphics g)
+        {
+            canvas = g;
         }
 
     }
