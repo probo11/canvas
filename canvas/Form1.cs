@@ -274,16 +274,21 @@ namespace canvas
             RefreshCanvas();
         }
 
-        private void button1_Click(object sender, EventArgs e)//undo
+        private void redoButton_Click(object sender, EventArgs e)
+        {
+            Singleton.RedoAction();
+            RefreshCanvas();
+        }
+
+        private void undoButton_Click(object sender, EventArgs e)
         {
             Singleton.UndoAction();
             RefreshCanvas();
         }
 
-        private void button2_Click(object sender, EventArgs e)//redo
+        private void grouButton_Click(object sender, EventArgs e)
         {
-            Singleton.RedoAction();
-            RefreshCanvas();
+
         }
     }
 }
