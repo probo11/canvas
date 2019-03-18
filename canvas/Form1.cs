@@ -23,9 +23,6 @@ namespace canvas
         {
             InitializeComponent();
             this.MaximizeBox = false;
-
-            
-
         }
 
         private void rectButton_Click(object sender, EventArgs e)
@@ -152,7 +149,9 @@ namespace canvas
                 case 0://draw rectangle
                     if (e.Location.X > tempPoint.X && e.Location.Y > tempPoint.Y)// draggen rechtsonder
                     {
-                        Singleton.AddToDrawnShapes(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+                        //Singleton.AddToDrawnShapes(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y));
+                        Singleton.EmptyRedoList();
+                        inv.DoAction(new CreateRectangle(new Rectangle(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y)));
 
                     }
                     else if (e.Location.X < tempPoint.X && e.Location.Y > tempPoint.Y) // draggen linksonder
@@ -162,13 +161,17 @@ namespace canvas
                         int height = e.Location.Y - tempPoint.Y;
                         temp.X = tempPoint.X - width;
                         temp.Y = e.Location.Y - height;
-                        Singleton.AddToDrawnShapes(new Rectangle(temp, width, height));
+                        //Singleton.AddToDrawnShapes(new Rectangle(temp, width, height));
+                        Singleton.EmptyRedoList();
+                        inv.DoAction(new CreateRectangle(new Rectangle(temp, width, height)));
                     }
                     else if (e.Location.X < tempPoint.X && e.Location.Y < tempPoint.Y) //draggen linksboven
                     {
                         int width = tempPoint.X - e.Location.X;
                         int height = tempPoint.Y - e.Location.Y;
-                        Singleton.AddToDrawnShapes(new Rectangle(e.Location, width, height));
+                        //Singleton.AddToDrawnShapes(new Rectangle(e.Location, width, height));
+                        Singleton.EmptyRedoList();
+                        inv.DoAction(new CreateRectangle(new Rectangle(e.Location, width, height)));
                     }
                     else
                     {
@@ -177,11 +180,13 @@ namespace canvas
                         int height = tempPoint.Y - e.Location.Y;
                         temp.X = tempPoint.X;
                         temp.Y = e.Location.Y;
-                        Singleton.AddToDrawnShapes(new Rectangle(temp, width, height));
+                        //Singleton.AddToDrawnShapes(new Rectangle(temp, width, height));
+                        Singleton.EmptyRedoList();
+                        inv.DoAction(new CreateRectangle(new Rectangle(temp, width, height)));
                     }
                     break;
                 case 1://draw ellipse
-                    //Singleton.AddToDrawnShapes();
+                    Singleton.EmptyRedoList();
                     inv.DoAction(new CreateEllipse(new Ellipse(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y)));
                     break;
                 case 2://select
@@ -209,8 +214,8 @@ namespace canvas
                     {
                         if (shape.GetIsSelected())
                         {
-                            shape.SetX(e.X);
-                            shape.SetY(e.Y);
+                            Singleton.EmptyRedoList();
+                            inv.DoAction(new MoveShape(shape, e.X, e.Y));
                         }
                         shape.SetIsSelected(false);
                     }

@@ -59,6 +59,7 @@
     <Compile Include="Group.cs" />
     <Compile Include="Invoker.cs" />
     <Compile Include="IShape.cs" />
+    <Compile Include="MoveShape.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle.cs" />

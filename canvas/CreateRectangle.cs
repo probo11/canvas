@@ -24,8 +24,8 @@ namespace canvas
 
         public void Undo()
         {
-            throw new NotImplementedException();
-            //zie createellipse
+            Singleton.RemoveFromDrawnShapes(r);
+            Singleton.RemoveAction(this);
         }
     }
 }

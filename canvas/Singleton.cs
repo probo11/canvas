@@ -39,12 +39,10 @@ namespace canvas
 
         public static void UndoAction()
         {
-
             if (doneActions.Count > 0)
             {
                 redoActions.Add(doneActions.Last());
                 doneActions.Last().Undo();
-
             }
         }
 
