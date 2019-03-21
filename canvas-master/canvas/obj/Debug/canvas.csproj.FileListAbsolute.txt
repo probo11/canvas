@@ -1,9 +1,0 @@
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\bin\Debug\canvas.exe.config
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\bin\Debug\canvas.exe
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\bin\Debug\canvas.pdb
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\obj\Debug\canvas.Form1.resources
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\obj\Debug\canvas.Properties.Resources.resources
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\obj\Debug\canvas.csproj.GenerateResource.Cache
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\obj\Debug\canvas.csproj.CoreCompileInputs.cache
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\obj\Debug\canvas.exe
-C:\Users\Gebruiker\Desktop\Nieuwe map\canvas-master\canvas\obj\Debug\canvas.pdb
