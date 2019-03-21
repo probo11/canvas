@@ -12,7 +12,7 @@ namespace canvas
         /*
             er is een lijst van gedane acties
             als je dat wilt undoën, dan schrap je dat ding gewoon uit die lijst, stopt het in redo-lijst, en refresht het canvas.
-            
+            ok
              */
         private static Singleton instance = new Singleton();
         private static List<Command> doneActions = new List<Command>();
