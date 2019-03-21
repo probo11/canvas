@@ -18,6 +18,7 @@ namespace canvas
         private static List<Command> doneActions = new List<Command>();
         private static List<Command> redoActions = new List<Command>();
         private static List<Shape> drawnShapes = new List<Shape>();
+        private static List<Shape> selectedList = new List<Shape>();
         private static Graphics canvas;
 
         private Singleton() { }
@@ -74,6 +75,27 @@ namespace canvas
         public static List<Command> GetActions()
         {
             return doneActions;
+        }
+
+        /*het selecteren*/
+        public static List<Shape> getSelectedList()
+        {
+            return selectedList;
+        }
+
+        public static void ClearSelectedList()
+        {
+            selectedList.Clear();
+        }
+
+        public static void AddToSelectedList(Shape s)
+        {
+            selectedList.Add(s);
+        }
+
+        public static void RemoveFromSelectedList(Shape s)
+        {
+            selectedList.Remove(s);
         }
 
         /*alles met het tekenen*/

@@ -51,6 +51,7 @@
     <Compile Include="CommandPattern\CreateRectangle.cs" />
     <Compile Include="CommandPattern\DecreaseShapeSize.cs" />
     <Compile Include="CommandPattern\IncreaseShapeSize.cs" />
+    <Compile Include="CommandPattern\MakeGroup.cs" />
     <Compile Include="CommandPattern\OpenFile.cs" />
     <Compile Include="CommandPattern\SaveFile.cs" />
     <Compile Include="Shapes\Ellipse.cs" />

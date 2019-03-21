@@ -24,8 +24,12 @@ namespace canvas
 
         public void Execute()
         {
-            shape.SetX(x);
-            shape.SetY(y);
+            shape.SetX(oldX - Math.Abs(x - oldX));
+            if (oldY > y)
+            {
+                shape.SetY(oldY - Math.Abs(y - oldY));
+            }
+            
             Singleton.AddAction(this);
         }
 

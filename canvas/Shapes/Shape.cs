@@ -13,6 +13,7 @@ namespace canvas
         private int width;
         private int height;
         private bool isSelected = false;
+        private Group parent;
 
         public Shape(Point p, int width, int height, bool isSelected)
         {
@@ -20,6 +21,16 @@ namespace canvas
             this.width = width;
             this.height = height;
             this.isSelected = isSelected;
+        }
+
+        public void SetParent(Group s)
+        {
+            parent = s;
+        }
+
+        public Group GetParent()
+        {
+            return parent;
         }
 
         public int[] GetShapeData()
@@ -63,7 +74,7 @@ namespace canvas
             p.X = x;
         }
 
-        public void SetY (int y)
+        public void SetY(int y)
         {
             p.Y = y;
         }

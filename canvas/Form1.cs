@@ -104,19 +104,27 @@ namespace canvas
 
                 foreach (var item in Singleton.GetDrawnShapes())
                 {
-                    if (item.GetIsSelected())
+                    bool isSelected = false;
+
+                    foreach (var i in Singleton.getSelectedList())
                     {
-                        if (item.GetType() == re.GetType())
+                        if (item == i)
                         {
-                            DrawShapes(penSelected, g, item.GetShapeData(), true);
-                        }
-                        else if (item.GetType() == el.GetType())
-                        {
-                            DrawShapes(penSelected, g, item.GetShapeData(), false);
+                            isSelected = true;
+
+                            if (item.GetType() == re.GetType())
+                            {
+                                DrawShapes(penSelected, g, item.GetShapeData(), true);
+                            }
+                            else if (item.GetType() == el.GetType())
+                            {
+                                DrawShapes(penSelected, g, item.GetShapeData(), false);
+                            }
                         }
                     }
-                    else
-                    {// if the item is not selected
+
+                    if (!isSelected)
+                    {
                         if (item.GetType() == re.GetType())
                         {
                             DrawShapes(pen, g, item.GetShapeData(), true);
@@ -124,10 +132,6 @@ namespace canvas
                         else if (item.GetType() == el.GetType())
                         {
                             DrawShapes(pen, g, item.GetShapeData(), false);
-                        }
-                        else
-                        {
-                            MessageBox.Show(MousePosition.X.ToString() + ";" + MousePosition.Y.ToString());
                         }
                     }
                 }
@@ -190,14 +194,31 @@ namespace canvas
                         {
                             if (e.Y >= shape.GetY() && e.Y <= shape.GetY() + shape.GetHeight())
                             {
-                                if (shape.GetIsSelected())
+                                if (shape.GetParent() == null)
                                 {
-                                    shape.SetIsSelected(false);
+                                    if (shape.GetIsSelected())
+                                    {
+                                        shape.SetIsSelected(false);
+                                        Singleton.RemoveFromSelectedList(shape);
+                                    }
+                                    else
+                                    {
+                                        shape.SetIsSelected(true);
+                                        Singleton.AddToSelectedList(shape);
+                                    }
                                 }
                                 else
                                 {
-                                    shape.SetIsSelected(true);
+                                    Group g = shape.GetParent();
+
+                                    foreach (Shape item in g.GetGroup())
+                                    {
+                                        item.SetIsSelected(true);
+                                        Singleton.AddToSelectedList(item);
+                                    }
                                 }
+
+
                                 EnableButtons();
                             }
                         }
@@ -252,6 +273,7 @@ namespace canvas
             foreach (var item in Singleton.GetDrawnShapes())
             {
                 item.SetIsSelected(false);
+                RefreshCanvas();
             }
         }
 
@@ -288,7 +310,8 @@ namespace canvas
 
         private void grouButton_Click(object sender, EventArgs e)
         {
-
+            inv.DoAction(new MakeGroup());
+            DeselectAll();
         }
     }
 }
