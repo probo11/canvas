@@ -225,13 +225,26 @@ namespace canvas
                     }
                     break;
                 case 3:
-                    foreach (var shape in Singleton.GetDrawnShapes())
+                    int leftX = 10000;
+                    int leftY = 10000;
+                    foreach (var item in Singleton.getSelectedList())
                     {
-                        if (shape.GetIsSelected())
+                        if (item.GetX() < leftX)
                         {
-                            Singleton.EmptyRedoList();
-                            inv.DoAction(new MoveShape(shape, e.X, e.Y));
+                            leftX = item.GetX();
                         }
+                        if (item.GetY() < leftY)
+                        {
+                            leftY = item.GetY();
+                        }
+
+                    }
+                    foreach (var shape in Singleton.getSelectedList())
+                    {
+                        
+                        Singleton.EmptyRedoList();
+                        inv.DoAction(new MoveShape(shape, e.X, e.Y, leftX, leftY));
+
                         shape.SetIsSelected(false);
                     }
                     DisableButtons();
