@@ -312,6 +312,15 @@ namespace canvas
             RefreshCanvas();
         }
 
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Singleton.ClearSelectedList();
+            Singleton.ClearDrawnShapes();
+            Singleton.ClearAllActions();
+            Singleton.EmptyRedoList();
+            canvas.Refresh();
+        }
+
         private void redoButton_Click(object sender, EventArgs e)
         {
             Singleton.RedoAction();
@@ -329,5 +338,7 @@ namespace canvas
             inv.DoAction(new MakeGroup());
             DeselectAll();
         }
+
+        
     }
 }
