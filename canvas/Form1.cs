@@ -223,6 +223,7 @@ namespace canvas
                                     {
                                         Singleton.AddToSelectedList(element);
                                     }
+                                    EnableButtons();
                                 }
                             }
                         }
@@ -249,8 +250,9 @@ namespace canvas
                         Singleton.EmptyRedoList();
                         inv.DoAction(new MoveShape(shape, e.X, e.Y, leftX, leftY));
 
-                        shape.SetIsSelected(false);
+                        
                     }
+                    Singleton.ClearSelectedList();
                     DisableButtons();
                     break;
             }
