@@ -27,7 +27,7 @@ namespace canvas
             groupContent.Remove(s);
         }
 
-        public List<Shape> GetGroup()
+        public List<Shape> GetChildren()
         {
             return groupContent;
         }

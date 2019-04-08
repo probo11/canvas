@@ -12,9 +12,11 @@ namespace canvas
     {
         public void Execute()
         {
-            Point p = new Point();
-            p.X = -1;
-            p.Y = -1;
+            Point p = new Point
+            {
+                X = -1,
+                Y = -1
+            };
             Group g = new Group(p, 0, 0, true);
 
             if (Singleton.getSelectedList().Count > 0)
@@ -23,8 +25,8 @@ namespace canvas
                 {
                     g.Add(item);
                     item.SetParent(g);
+                    Singleton.RemoveFromDrawnShapes(item);
                 }
-
                 Singleton.ClearSelectedList();
                 Singleton.AddToDrawnShapes(g);
             }

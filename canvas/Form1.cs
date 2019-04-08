@@ -79,9 +79,9 @@ namespace canvas
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Singleton.SetCanvas(canvas.CreateGraphics());
             canvas.BackColor = Color.White;
             canvas.Paint += new PaintEventHandler(this.canvas_Paint);
-            Singleton.SetCanvas(canvas.CreateGraphics());
             this.Controls.Add(canvas);
         }
 
@@ -89,14 +89,16 @@ namespace canvas
         {
             if (paint)
             {
-                Graphics g = e.Graphics;
+                Singleton.SetCanvas(e.Graphics);
                 Pen pen = new Pen(Color.Black);
                 Pen penSelected = new Pen(Color.Red);
 
                 /**/
-                Point p = new Point();
-                p.X = 1;
-                p.Y = 2;
+                Point p = new Point
+                {
+                    X = 1,
+                    Y = 2
+                };
                 Rectangle re = new Rectangle(p, 0, 0);
                 Ellipse el = new Ellipse(p, 0, 0);
 
@@ -112,11 +114,11 @@ namespace canvas
 
                             if (item.GetType() == re.GetType())
                             {
-                                DrawShapes(penSelected, g, item.GetShapeData(), true);
+                                DrawShapes(penSelected, item.GetShapeData(), true);
                             }
                             else if (item.GetType() == el.GetType())
                             {
-                                DrawShapes(penSelected, g, item.GetShapeData(), false);
+                                DrawShapes(penSelected, item.GetShapeData(), false);
                             }
                         }
                     }
@@ -125,11 +127,11 @@ namespace canvas
                     {
                         if (item.GetType() == re.GetType())
                         {
-                            DrawShapes(pen, g, item.GetShapeData(), true);
+                            DrawShapes(pen, item.GetShapeData(), true);
                         }
                         else if (item.GetType() == el.GetType())
                         {
-                            DrawShapes(pen, g, item.GetShapeData(), false);
+                            DrawShapes(pen, item.GetShapeData(), false);
                         }
                     }
                 }
@@ -212,19 +214,17 @@ namespace canvas
                                     {
                                         Singleton.AddToSelectedList(shape);
                                     }
-
-                                    EnableButtons();
                                 }
                                 else
                                 {
                                     Group g = shape.GetParent();
 
-                                    foreach (var element in g.GetGroup())
+                                    foreach (var element in g.GetChildren())
                                     {
                                         Singleton.AddToSelectedList(element);
                                     }
-                                    EnableButtons();
                                 }
+                                EnableButtons();
                             }
                         }
                     }
@@ -242,15 +242,11 @@ namespace canvas
                         {
                             leftY = item.GetY();
                         }
-
                     }
                     foreach (var shape in Singleton.getSelectedList())
                     {
-                        
                         Singleton.EmptyRedoList();
-                        inv.DoAction(new MoveShape(shape, e.X, e.Y, leftX, leftY));
-
-                        
+                        inv.DoAction(new MoveShape(shape, e.X, e.Y, leftX, leftY)); 
                     }
                     Singleton.ClearSelectedList();
                     DisableButtons();
@@ -274,15 +270,15 @@ namespace canvas
             minButton.Enabled = true;
         }
 
-        private void DrawShapes(Pen pen, Graphics g, int[] shape, bool shapeType)
+        private void DrawShapes(Pen pen, int[] shape, bool shapeType)
         {
             if (shapeType) // rectangle
             {
-                g.DrawRectangle(pen, shape[0], shape[1], shape[2], shape[3]);
+                Singleton.GetCanvas().DrawRectangle(pen, shape[0], shape[1], shape[2], shape[3]);
             }
             else
             {
-                g.DrawEllipse(pen, shape[0], shape[1], shape[2], shape[3]);
+                Singleton.GetCanvas().DrawEllipse(pen, shape[0], shape[1], shape[2], shape[3]);
             }
 
         }
@@ -337,8 +333,6 @@ namespace canvas
         {
             inv.DoAction(new MakeGroup());
             DeselectAll();
-        }
-
-        
+        } 
     }
 }

@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace canvas
 {
-    class Shape
+    abstract class Shape
     {
         private Point p;
         private int width;
