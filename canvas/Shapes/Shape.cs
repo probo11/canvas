@@ -15,6 +15,8 @@ namespace canvas
         private bool isSelected = false;
         private Group parent;
 
+        List<Shape> groupContent = new List<Shape>();
+
         public Shape(Point p, int width, int height, bool isSelected)
         {
             this.p = p;

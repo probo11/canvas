@@ -120,8 +120,13 @@ namespace canvas
                             {
                                 DrawShapes(penSelected, item.GetShapeData(), false);
                             }
+                            else
+                            {
+
+                            }
                         }
                     }
+
 
                     if (!isSelected)
                     {
