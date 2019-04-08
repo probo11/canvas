@@ -25,6 +25,7 @@ namespace canvas
         public void Undo()
         {
             Singleton.RemoveFromDrawnShapes(r);
+            Singleton.RemoveFromSelectedList(r);
             Singleton.RemoveAction(this);
         }
     }

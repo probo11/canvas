@@ -51,13 +51,12 @@ namespace canvas
 
         private void plusButton_Click(object sender, EventArgs e)
         {
-            foreach (var shape in Singleton.GetDrawnShapes())
+            foreach (var shape in Singleton.getSelectedList())
             {
-                if (shape.GetIsSelected())
-                {
+
                     Singleton.EmptyRedoList();
                     inv.DoAction(new IncreaseShapeSize(shape));
-                }
+                
             }
             paint = true;
             canvas.Refresh();
@@ -66,13 +65,12 @@ namespace canvas
 
         private void minButton_Click(object sender, EventArgs e)
         {
-            foreach (var shape in Singleton.GetDrawnShapes())
+            foreach (var shape in Singleton.getSelectedList())
             {
-                if (shape.GetIsSelected())
-                {
+                
                     Singleton.EmptyRedoList();
                     inv.DoAction(new DecreaseShapeSize(shape));
-                }
+                
             }
             paint = true;
             canvas.Refresh();
@@ -196,30 +194,36 @@ namespace canvas
                             {
                                 if (shape.GetParent() == null)
                                 {
-                                    if (shape.GetIsSelected())
+                                    bool isInSelectedList = false;
+
+                                    foreach (Shape thing in Singleton.getSelectedList())
                                     {
-                                        shape.SetIsSelected(false);
+                                        if (thing == shape)
+                                        {
+                                            isInSelectedList = true;
+                                            break;
+                                        }
+                                    }
+                                    if (isInSelectedList)
+                                    {
                                         Singleton.RemoveFromSelectedList(shape);
                                     }
                                     else
                                     {
-                                        shape.SetIsSelected(true);
                                         Singleton.AddToSelectedList(shape);
                                     }
+
+                                    EnableButtons();
                                 }
                                 else
                                 {
                                     Group g = shape.GetParent();
 
-                                    foreach (Shape item in g.GetGroup())
+                                    foreach (var element in g.GetGroup())
                                     {
-                                        item.SetIsSelected(true);
-                                        Singleton.AddToSelectedList(item);
+                                        Singleton.AddToSelectedList(element);
                                     }
                                 }
-
-
-                                EnableButtons();
                             }
                         }
                     }
@@ -283,11 +287,8 @@ namespace canvas
 
         private void DeselectAll()
         {
-            foreach (var item in Singleton.GetDrawnShapes())
-            {
-                item.SetIsSelected(false);
-                RefreshCanvas();
-            }
+            Singleton.ClearSelectedList();
+            RefreshCanvas();
         }
 
         private void RefreshCanvas()
