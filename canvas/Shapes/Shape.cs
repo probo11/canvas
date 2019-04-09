@@ -15,13 +15,16 @@ namespace canvas
         private bool isSelected = false;
         private Group parent;
 
-        public Shape(Point p, int width, int height, bool isSelected)
+        public Shape(Point p, int width, int height)
         {
             this.p = p;
             this.width = width;
             this.height = height;
-            this.isSelected = isSelected;
         }
+
+        
+
+        public virtual void Draw(){}
 
         public void SetParent(Group s)
         {

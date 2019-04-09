@@ -12,9 +12,17 @@ namespace canvas
     {
         List<Shape> groupContent = new List<Shape>();
 
-        public Group(Point p, int width = 0, int height = 0, bool isSelected = false) : base(p, width, height, isSelected)
+        public Group(Point p, int width = 0, int height = 0) : base(p, width, height)
         {
 
+        }
+
+        public override void Draw()
+        {
+            foreach (var item in groupContent)
+            {
+                item.Draw();
+            }
         }
 
         public void Add(Shape s)

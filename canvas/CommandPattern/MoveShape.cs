@@ -65,7 +65,6 @@ namespace canvas
                 shape.SetY(oldY - transitionY);
             }
             
-            
             Singleton.AddAction(this);
         }
 

@@ -14,11 +14,11 @@ namespace canvas
         {
             Point p = new Point
             {
-                X = -1,
-                Y = -1
+                X = 10000,
+                Y = 10000
             };
-            Group g = new Group(p, 0, 0, true);
-
+            Group g = new Group(p, 0, 0);
+            int tx = 0, ty = 0;
             if (Singleton.getSelectedList().Count > 0)
             {
                 foreach (var item in Singleton.getSelectedList())
@@ -26,6 +26,26 @@ namespace canvas
                     g.Add(item);
                     item.SetParent(g);
                     Singleton.RemoveFromDrawnShapes(item);
+
+                    if (item.GetX() < g.GetX())
+                    {
+                        g.SetX(item.GetX());
+                    }
+                    if (item.GetY() < g.GetY())
+                    {
+                        g.SetY(item.GetY());
+                    }
+
+                    if (tx < item.GetX())
+                    {
+                        tx = item.GetX();
+                        g.SetWidth(Math.Abs(item.GetX() + item.GetWidth()));
+                    }
+                    if (ty < item.GetY())
+                    {
+                        ty = item.GetY();
+                        g.SetHeight(Math.Abs(item.GetY() + item.GetHeight()));
+                    }
                 }
                 Singleton.ClearSelectedList();
                 Singleton.AddToDrawnShapes(g);
