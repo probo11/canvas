@@ -17,7 +17,7 @@ namespace canvas
                 X = 10000,
                 Y = 10000
             };
-            Group g = new Group(p, 0, 0, true);
+            Group g = new Group(p, 0, 0);
             int tx = 0, ty = 0;
             if (Singleton.getSelectedList().Count > 0)
             {
@@ -39,7 +39,7 @@ namespace canvas
                     if (tx < item.GetX())
                     {
                         tx = item.GetX();
-                        g.SetWidth(Math.Abs(item.GetX()+item.GetWidth()));
+                        g.SetWidth(Math.Abs(item.GetX() + item.GetWidth()));
                     }
                     if (ty < item.GetY())
                     {

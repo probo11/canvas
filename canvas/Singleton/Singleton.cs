@@ -20,12 +20,26 @@ namespace canvas
         private static List<Shape> drawnShapes = new List<Shape>();
         private static List<Shape> selectedList = new List<Shape>();
         private static Graphics canvas;
+        private static Pen pen = new Pen(Color.Black);
+        private static Pen penSelected = new Pen(Color.Red);
+
 
         private Singleton() { }
 
         public static Singleton GetInstance()
         {
             return instance;
+        }
+
+        /*haal de pennen op*/
+        public static Pen GetPen()
+        {
+            return pen;
+        }
+
+        public static Pen GetSelectedPen()
+        {
+            return penSelected;
         }
 
         /*alles qua acties*/

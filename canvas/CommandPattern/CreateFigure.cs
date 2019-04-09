@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace canvas
 {
-    class CreateEllipse : Command
+    class CreateFigure : Command
     {
-        Ellipse e;
+        Figure f;
 
-        public CreateEllipse(Ellipse e)
+        public CreateFigure(Figure f)
         {
-            this.e = e;
+            this.f = f;
         }
 
         public void Execute()
         {
-            Singleton.AddToDrawnShapes(e);
+            Singleton.AddToDrawnShapes(f);
             Singleton.AddAction(this);
         }
 
         public void Undo()
         {
-            Singleton.RemoveFromDrawnShapes(e);
-            Singleton.RemoveFromSelectedList(e);
+            Singleton.RemoveFromDrawnShapes(f);
+            Singleton.RemoveFromSelectedList(f);
             Singleton.RemoveAction(this);
         }
     }
