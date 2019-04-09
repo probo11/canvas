@@ -22,9 +22,9 @@ namespace canvas
             this.height = height;
         }
 
-        
 
-        public virtual void Draw(){}
+
+        public virtual void Draw() { }
 
         public void SetParent(Group s)
         {

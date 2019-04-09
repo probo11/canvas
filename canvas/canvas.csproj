@@ -67,8 +67,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Singleton\Singleton.cs" />
-    <Compile Include="Strats\RectangleStrategy.cs" />
     <Compile Include="Strats\EllipseStrategy.cs" />
+    <Compile Include="Strats\RectangleStrategy.cs" />
     <Compile Include="Strats\Strategy.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
