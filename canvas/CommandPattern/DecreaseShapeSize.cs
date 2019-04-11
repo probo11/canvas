@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace canvas
 {
-    class DecreaseShapeSize : Command
+    class DecreaseShapeSize : ICommand
     {
         Shape shape;
 

@@ -54,28 +54,50 @@ namespace canvas
         {
             foreach (var shape in Singleton.getSelectedList())
             {
+                if (shape.GetShapeType() == "group")
+                {
+                    Group sh = (Group)shape;
+
+
+                    foreach (var ding in sh.GetChildren())
+                    {
+                        inv.DoAction(new IncreaseShapeSize(ding));
+                    }
+                }
+                else
+                {
+                    inv.DoAction(new IncreaseShapeSize(shape));
+                }
 
                 Singleton.EmptyRedoList();
-                inv.DoAction(new IncreaseShapeSize(shape));
+             
 
             }
-            paint = true;
-            canvas.Refresh();
-            paint = false;
+            RefreshCanvas();
         }
 
         private void minButton_Click(object sender, EventArgs e)
         {
             foreach (var shape in Singleton.getSelectedList())
             {
+                if (shape.GetShapeType() == "group")
+                {
+                    Group sh = (Group)shape;
+
+
+                    foreach (var ding in sh.GetChildren())
+                    {
+                        inv.DoAction(new DecreaseShapeSize(ding));
+                    }
+                }
+                else
+                {
+                    inv.DoAction(new DecreaseShapeSize(shape));
+                }
 
                 Singleton.EmptyRedoList();
-                inv.DoAction(new DecreaseShapeSize(shape));
-
             }
-            paint = true;
-            canvas.Refresh();
-            paint = false;
+            RefreshCanvas();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -96,68 +118,6 @@ namespace canvas
                     item.Draw();
                 }
             }
-
-
-            //if (paint)
-            //{
-            //    singleton.setcanvas(e.graphics);
-
-
-            //    /**/
-            //    point p = new point
-            //    {
-            //        x = 1,
-            //        y = 2
-            //    };
-            //    rectangle re = new rectangle(p, 0, 0);
-            //    ellipse el = new ellipse(p, 0, 0);
-
-            //    foreach (var item in singleton.getdrawnshapes())
-            //    {
-            //        bool isselected = false;
-
-            //        foreach (var itemobject in singleton.getselectedlist()) // true is vierkant
-            //        {
-            //            if (item == itemobject)
-            //            {
-            //                isselected = true;
-
-            //                if (item.gettype() == re.gettype())
-            //                {
-            //                    drawshapes(, item.getshapedata(), true);
-            //                }
-            //                else if (item.gettype() == el.gettype())
-            //                {
-            //                    drawshapes(penselected, item.getshapedata(), false);
-            //                }
-            //                else
-            //                {
-
-            //                }
-            //            }
-            //        }
-
-            //        if (!isselected) // true = vierkant
-            //        {
-            //            if (item.gettype() == re.gettype())
-            //            {
-            //                drawshapes(pen, item.getshapedata(), true);
-            //            }
-            //            else if (item.gettype() == el.gettype())
-            //            {
-            //                drawshapes(pen, item.getshapedata(), false);
-            //            }
-            //            else
-            //            {
-            //                list<shape> g = item.getchildren();
-            //                foreach (var a in g)
-            //                {
-            //                    drawshapes(pen, a.getshapedata(), true);
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
         }
 
         private void canvas_MouseDown(object sender, MouseEventArgs e)
@@ -254,18 +214,19 @@ namespace canvas
 
                                     if (isInSelectedList)
                                     {
-                                        foreach (var item in group.GetChildren())
-                                        {
-                                            Singleton.RemoveFromSelectedList(item);
-                                        }
+
+                                        //foreach (var item in group.GetChildren())
+                                        //{
+                                        //    Singleton.RemoveFromSelectedList(item);
+                                        //}
                                         Singleton.RemoveFromSelectedList(group);
                                     }
                                     else
                                     {
-                                        foreach (var item in group.GetChildren())
-                                        {
-                                            Singleton.AddToSelectedList(item);
-                                        }
+                                        //foreach (var item in group.GetChildren())
+                                        //{
+                                        //    Singleton.AddToSelectedList(item);
+                                        //}
                                         Singleton.AddToSelectedList(group);
                                     }
 
@@ -291,8 +252,20 @@ namespace canvas
                     }
                     foreach (var shape in Singleton.getSelectedList())
                     {
+                        if (shape.GetShapeType() == "group" )
+                        {
+                            Group sh = (Group)shape;
+
+
+                            foreach(var ding in sh.GetChildren())
+                            {
+                                inv.DoAction(new MoveShape(ding, e.X, e.Y, leftX, leftY));
+                            }
+                        }
+                            inv.DoAction(new MoveShape(shape, e.X, e.Y, leftX, leftY));
+                        
                         Singleton.EmptyRedoList();
-                        inv.DoAction(new MoveShape(shape, e.X, e.Y, leftX, leftY));
+                        
                     }
                     Singleton.ClearSelectedList();
                     DisableButtons();
@@ -379,6 +352,7 @@ namespace canvas
         {
             inv.DoAction(new MakeGroup());
             DeselectAll();
+            DisableButtons();
         }
     }
 }

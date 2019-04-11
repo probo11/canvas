@@ -15,8 +15,8 @@ namespace canvas
             ok
              */
         private static Singleton instance = new Singleton();
-        private static List<Command> doneActions = new List<Command>();
-        private static List<Command> redoActions = new List<Command>();
+        private static List<ICommand> doneActions = new List<ICommand>();
+        private static List<ICommand> redoActions = new List<ICommand>();
         private static List<Shape> drawnShapes = new List<Shape>();
         private static List<Shape> selectedList = new List<Shape>();
         private static Graphics canvas;
@@ -44,12 +44,12 @@ namespace canvas
 
         /*alles qua acties*/
 
-        public static void AddAction(Command c)
+        public static void AddAction(ICommand c)
         {
             doneActions.Add(c);
         }
 
-        public static void RemoveAction(Command c)
+        public static void RemoveAction(ICommand c)
         {
             doneActions.Remove(c);
         }
@@ -72,7 +72,7 @@ namespace canvas
         {
             if (redoActions.Count > 0)
             {
-                Command c = redoActions.Last();
+                ICommand c = redoActions.Last();
                 redoActions.Last().Execute();
                 redoActions.Remove(c);
             }
@@ -86,7 +86,7 @@ namespace canvas
             drawnShapes.Clear();
         }
 
-        public static List<Command> GetActions()
+        public static List<ICommand> GetActions()
         {
             return doneActions;
         }

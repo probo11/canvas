@@ -17,6 +17,11 @@ namespace canvas
 
         }
 
+        public override void Accept(IVisitor v)
+        {
+            v.VisitGroup(this);
+        }
+
         public override void Draw()
         {
             foreach (var item in groupContent)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace canvas
 {
-    class MakeGroup : Command
+    class MakeGroup : ICommand
     {
         public void Execute()
         {

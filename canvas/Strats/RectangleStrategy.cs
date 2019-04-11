@@ -7,18 +7,21 @@ using System.Drawing;
 
 namespace canvas
 {
-    class RectangleStrategy : Strategy
+    class RectangleStrategy : IStrategy
     {
-        Graphics g;
 
-        public RectangleStrategy( Graphics g)
+        public RectangleStrategy( )
         {
-            this.g = g;
+            
         }
 
         public void Execute(Figure f)
         {
-            if (Singleton.getSelectedList().Contains(f))
+            if (Singleton.getSelectedList().Contains(f.GetParent()))
+            {
+                Singleton.GetCanvas().DrawRectangle(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
+            }
+            else if (Singleton.getSelectedList().Contains(f))
             {
                 Singleton.GetCanvas().DrawRectangle(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
             }

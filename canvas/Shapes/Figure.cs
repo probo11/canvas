@@ -16,16 +16,33 @@ namespace canvas
             this.isRectangle = isRectangle;
         }
 
+        public string GetFigureType()
+        {
+            if (isRectangle)
+            {
+                return "rectangle";
+            }
+            else
+            {
+                return "ellipse";
+            }
+        }
+
+        public override void Accept(IVisitor v)
+        {
+            v.VisitFigure(this);
+        }
+
         public override void Draw()
         {
             if (isRectangle)
             {
-                RectangleStrategy re = new RectangleStrategy(Singleton.GetCanvas());
+                RectangleStrategy re = new RectangleStrategy();
                 re.Execute(this);
             }
             else
             {
-                EllipseStrategy es = new EllipseStrategy(Singleton.GetCanvas());
+                EllipseStrategy es = new EllipseStrategy();
                 es.Execute(this);
             }
         }

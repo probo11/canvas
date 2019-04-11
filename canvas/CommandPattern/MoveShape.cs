@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace canvas
 {
-    class MoveShape : Command
+    class MoveShape : ICommand
     {
         Shape shape;
         int x, y;
@@ -48,7 +48,7 @@ namespace canvas
             int transitionX = Math.Abs(x - mostLeftX);
             int transitionY = Math.Abs(y - mostUpY);
 
-            if (oldX < x)
+            if (mostLeftX < x)
             {
                 shape.SetX(oldX + transitionX);
             }
@@ -56,7 +56,7 @@ namespace canvas
             {
                 shape.SetX(oldX - transitionX);
             }
-            if (oldY < y)
+            if (mostUpY < y)
             {
                 shape.SetY(oldY + transitionY);
             }

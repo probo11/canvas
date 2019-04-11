@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandPattern\Command.cs" />
+    <Compile Include="CommandPattern\ICommand.cs" />
     <Compile Include="CommandPattern\CreateFigure.cs" />
     <Compile Include="CommandPattern\DecreaseShapeSize.cs" />
     <Compile Include="CommandPattern\IncreaseShapeSize.cs" />
@@ -69,7 +69,9 @@
     <Compile Include="Singleton\Singleton.cs" />
     <Compile Include="Strats\EllipseStrategy.cs" />
     <Compile Include="Strats\RectangleStrategy.cs" />
-    <Compile Include="Strats\Strategy.cs" />
+    <Compile Include="Strats\IStrategy.cs" />
+    <Compile Include="Visitor\IVisitor.cs" />
+    <Compile Include="Visitor\SaveVisitor.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -95,5 +97,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

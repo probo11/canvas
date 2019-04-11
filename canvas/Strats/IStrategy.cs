@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace canvas
 {
-    interface Command
+    interface IStrategy
     {
-        void Execute();
-        void Undo();
+        void Execute(Figure f);
     }
 }

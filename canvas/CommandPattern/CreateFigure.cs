@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace canvas
 {
-    class CreateFigure : Command
+    class CreateFigure : ICommand
     {
         Figure f;
 

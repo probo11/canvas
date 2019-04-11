@@ -10,12 +10,12 @@ namespace canvas
     {
         public Invoker() { }
         
-        public void DoAction(Command c)
+        public void DoAction(ICommand c)
         {
             c.Execute();
         }
 
-        public void UndoAction(Command c)
+        public void UndoAction(ICommand c)
         {
             c.Undo();
         }

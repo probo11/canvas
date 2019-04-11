@@ -22,7 +22,10 @@ namespace canvas
             this.height = height;
         }
 
+        public virtual void Accept(IVisitor v)
+        {
 
+        }
 
         public virtual void Draw() { }
 

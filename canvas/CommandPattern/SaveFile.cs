@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace canvas
 {
-    class SaveFile : Command
+    class SaveFile : ICommand
     {
         public void Execute()
         {
@@ -24,10 +24,14 @@ namespace canvas
                 {
                     using (StreamWriter streamWriter = new StreamWriter(saveFileDialog.FileName))
                     {
+                        SaveVisitor sv = new SaveVisitor();
+
                         foreach (var shape in Singleton.GetDrawnShapes())
                         {
-                            streamWriter.WriteLine(shape.GetShapeType() + " " + shape.GetX() + " " + shape.GetY() + " " + shape.GetWidth() + " " + shape.GetHeight());
+                            shape.Accept(sv);
                         }
+
+                        streamWriter.WriteLine(sv.GetSaveData());
                     }
                 }
                 catch
@@ -39,7 +43,7 @@ namespace canvas
 
         public void Undo()
         {
-            
+
         }
     }
 }
