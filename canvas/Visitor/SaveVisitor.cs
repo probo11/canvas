@@ -28,7 +28,7 @@ namespace canvas
             {
                 for(int i = 0; i < tabCount; i++)
                 {
-                    saveData += "\t";
+                    saveData += "\t ";
                 }
 
                 item.Accept(this);             

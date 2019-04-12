@@ -214,19 +214,10 @@ namespace canvas
 
                                     if (isInSelectedList)
                                     {
-
-                                        //foreach (var item in group.GetChildren())
-                                        //{
-                                        //    Singleton.RemoveFromSelectedList(item);
-                                        //}
                                         Singleton.RemoveFromSelectedList(group);
                                     }
                                     else
                                     {
-                                        //foreach (var item in group.GetChildren())
-                                        //{
-                                        //    Singleton.AddToSelectedList(item);
-                                        //}
                                         Singleton.AddToSelectedList(group);
                                     }
 

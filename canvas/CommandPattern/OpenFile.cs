@@ -11,6 +11,9 @@ namespace canvas
 {
     class OpenFile : ICommand
     {
+        List<string> txt = new List<string>();
+        Invoker inv = new Invoker();
+
         public void Execute()
         {
             Stream stream = null;
@@ -25,30 +28,112 @@ namespace canvas
                 try
                 {
                     Singleton.ClearAllActions();
+
+                    int tabCount = 0;
+                    List<Group> groupList = new List<Group>();
+
+                    Point po = new Point(10000, 10000);
+                    int tx = 0, ty = 0;
+
                     if ((stream = openFileDialog.OpenFile()) != null)
                     {
                         using (StreamReader sr = new StreamReader(stream))
                         {
                             do
                             {
-                                string[] txt = sr.ReadLine().Split(' ');
-                                
-                                if (txt[0] == "rectangle")
+                                arrayToList(sr.ReadLine().Split(' '));
+                                tabCount = tabCounter(txt);
+                                if (tabCount == 0)
                                 {
-                                    int[] shape = { Int32.Parse(txt[1]), Int32.Parse(txt[2]), Int32.Parse(txt[3]), Int32.Parse(txt[4]) };
-                                    Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
-                                    Singleton.AddToDrawnShapes(new Figure(p, Int32.Parse(txt[3]), Int32.Parse(txt[4]), true));
+                                    if (txt[0] == "rectangle")
+                                    {
+                                        Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
+                                        Singleton.AddToDrawnShapes(new Figure(p, Int32.Parse(txt[3]), Int32.Parse(txt[4]), true));
+                                    }
+                                    else if (txt[0] == "ellipse")
+                                    {
+                                        Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
+                                        Singleton.AddToDrawnShapes(new Figure(p, Int32.Parse(txt[3]), Int32.Parse(txt[4]), false));
+                                    }
+                                    else if (txt[0] == "group")
+                                    {
+                                        groupList = new List<Group>();
+                                        Point p = new Point(0, 0);
+                                        Group group = new Group(p);
+                                        Singleton.AddToDrawnShapes(group);
+                                        groupList.Add(group);
+                                    }
                                 }
-                                else if (txt[0] == "ellipse")
+                                else
                                 {
-                                    int[] shape = { Int32.Parse(txt[1]), Int32.Parse(txt[2]), Int32.Parse(txt[3]), Int32.Parse(txt[4]) };
-                                    Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
-                                    Singleton.AddToDrawnShapes(new Figure(p, Int32.Parse(txt[3]), Int32.Parse(txt[4]), false));
-                                }
-                                else if (txt[0] == "group")
-                                {
-                                    Point p = new Point(0,0);
-                                    Singleton.AddToDrawnShapes(new Group(p));
+                                    cleanList();
+                                    if (txt[0] == "rectangle")
+                                    {
+                                        Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
+                                        if (p.X <= po.X)
+                                        {
+                                            po.X = p.X;
+                                        }
+                                        if (p.Y <= po.Y)
+                                        {
+                                            po.Y = p.Y;
+                                        }
+
+                                        if (tx <= p.X)
+                                        {
+                                            tx = p.X;
+                                            groupList[tabCount - 1].SetWidth(Math.Abs(p.X + int.Parse(txt[3])));
+                                        }
+                                        if (ty <= p.Y)
+                                        {
+                                            ty = p.Y;
+                                            groupList[tabCount - 1].SetHeight(Math.Abs(p.Y + int.Parse(txt[4])));
+                                        }
+                                        Figure figure = new Figure(p, Int32.Parse(txt[3]), Int32.Parse(txt[4]), true);
+                                        groupList[tabCount - 1].Add(figure);
+                                        figure.SetParent(groupList[tabCount - 1]);
+                                        groupList[tabCount - 1].SetX(po.X);
+                                        groupList[tabCount - 1].SetY(po.Y);
+                                    }
+                                    else if (txt[0] == "ellipse")
+                                    {
+                                        Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
+                                        if (p.X <= po.X)
+                                        {
+                                            po.X = p.X;
+                                        }
+                                        if (p.Y <= po.Y)
+                                        {
+                                            po.Y = p.Y;
+                                        }
+
+                                        if (tx >= p.X)
+                                        {
+                                            tx = p.X;
+                                            groupList[tabCount - 1].SetWidth(Math.Abs(p.X + int.Parse(txt[3])));
+                                        }
+                                        if (ty >= p.Y)
+                                        {
+                                            ty = p.Y;
+                                            groupList[tabCount - 1].SetHeight(Math.Abs(p.Y + int.Parse(txt[4])));
+                                        }
+                                        Figure figure = new Figure(p, Int32.Parse(txt[3]), Int32.Parse(txt[4]), false);
+                                        groupList[tabCount - 1].Add(figure);
+                                        figure.SetParent(groupList[tabCount - 1]);
+                                        groupList[tabCount - 1].SetX(po.X);
+                                        groupList[tabCount - 1].SetY(po.Y);
+                                    }
+                                    else if (txt[0] == "group")
+                                    {
+                                        Point p = new Point(0, 0);
+                                        Group group = new Group(p);
+
+                                        groupList[tabCount - 1].Add(group);
+                                        group.SetParent(groupList[tabCount - 1]);
+                                        groupList[tabCount - 1].SetX(po.X);
+                                        groupList[tabCount - 1].SetY(po.Y);
+                                        groupList.Add(group);
+                                    }
                                 }
 
                             } while (sr.EndOfStream == false);
@@ -58,6 +143,7 @@ namespace canvas
                 catch
                 {
                     MessageBox.Show("Couldn't open the file please try again.");
+                    Singleton.ClearDrawnShapes();
                 }
             }
         }
@@ -65,6 +151,42 @@ namespace canvas
         public void Undo()
         {
 
+        }
+
+        int tabCounter(List<string> a)
+        {
+            int tabs = 0;
+            foreach (var item in a)
+            {
+                if (item == "\t") // tab
+                {
+                    tabs++;
+                }
+            }
+            return tabs;
+        }
+
+        void cleanList()
+        {
+            List<string> temp = new List<string>();
+            for (int i = 0; i < txt.Count; i++)
+            {
+                if (txt[i] != "\t")
+                {
+                    temp.Add(txt[i]);
+                }
+            }
+            txt.Clear();
+            txt = temp;
+        }
+
+        void arrayToList(string[] a)
+        {
+            txt.Clear();
+            for (int i = 0; i < a.Length; i++)
+            {
+                txt.Add(a[i]);
+            }
         }
     }
 }
