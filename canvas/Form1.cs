@@ -317,8 +317,8 @@ namespace canvas
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //inv.DoAction(new OpenFile());
-            //RefreshCanvas();
+            inv.DoAction(new OpenFile());
+            RefreshCanvas();
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
