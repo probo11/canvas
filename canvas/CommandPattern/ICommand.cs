@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace canvas
 {
-    interface IShape
+    interface ICommand
     {
-        void Update(System.Windows.Forms.PictureBox p);
-        void Intersect(System.Drawing.Point point);
-        void Accept();
+        void Execute();
+        void Undo();
     }
 }
