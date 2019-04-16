@@ -39,12 +39,12 @@ namespace canvas
                     if (tx < item.GetX())
                     {
                         tx = item.GetX();
-                        g.SetWidth(Math.Abs(item.GetX() + item.GetWidth()));
+                        g.SetWidth(Math.Abs(tx + item.GetWidth() - g.GetX()));
                     }
                     if (ty < item.GetY())
                     {
                         ty = item.GetY();
-                        g.SetHeight(Math.Abs(item.GetY() + item.GetHeight()));
+                        g.SetHeight(Math.Abs(ty + item.GetHeight() - g.GetY()));
                     }
                 }
                 Singleton.ClearSelectedList();
