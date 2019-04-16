@@ -45,6 +45,8 @@ namespace canvas
                                 tabCount = tabCounter(txt);
                                 if (tabCount == 0)
                                 {
+                                    po = new Point(10000, 10000);
+                                    tx = 0; ty = 0;
                                     if (txt[0] == "rectangle")
                                     {
                                         Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
@@ -67,6 +69,7 @@ namespace canvas
                                 else
                                 {
                                     cleanList();
+
                                     if (txt[0] == "rectangle")
                                     {
                                         Point p = new Point(Int32.Parse(txt[1]), Int32.Parse(txt[2]));
@@ -82,12 +85,12 @@ namespace canvas
                                         if (tx <= p.X)
                                         {
                                             tx = p.X;
-                                            groupList[tabCount - 1].SetWidth(Math.Abs(p.X + int.Parse(txt[3])));
+                                            groupList[tabCount - 1].SetWidth(Math.Abs(tx + int.Parse(txt[3]) - po.X));
                                         }
                                         if (ty <= p.Y)
                                         {
                                             ty = p.Y;
-                                            groupList[tabCount - 1].SetHeight(Math.Abs(p.Y + int.Parse(txt[4])));
+                                            groupList[tabCount - 1].SetHeight(Math.Abs(ty + int.Parse(txt[4]) - po.Y));
                                         }
                                         Figure figure = new Figure(p, Int32.Parse(txt[3]), Int32.Parse(txt[4]), true);
                                         groupList[tabCount - 1].Add(figure);
@@ -110,12 +113,12 @@ namespace canvas
                                         if (tx >= p.X)
                                         {
                                             tx = p.X;
-                                            groupList[tabCount - 1].SetWidth(Math.Abs(p.X + int.Parse(txt[3])));
+                                            groupList[tabCount - 1].SetWidth(Math.Abs(tx + int.Parse(txt[3]) - po.X));
                                         }
                                         if (ty >= p.Y)
                                         {
                                             ty = p.Y;
-                                            groupList[tabCount - 1].SetHeight(Math.Abs(p.Y + int.Parse(txt[4])));
+                                            groupList[tabCount - 1].SetHeight(Math.Abs(ty + int.Parse(txt[4]) - po.Y));
                                         }
                                         Figure figure = new Figure(p, Int32.Parse(txt[3]), Int32.Parse(txt[4]), false);
                                         groupList[tabCount - 1].Add(figure);
@@ -125,13 +128,11 @@ namespace canvas
                                     }
                                     else if (txt[0] == "group")
                                     {
-                                        Point p = new Point(0, 0);
-                                        Group group = new Group(p);
+                                        Point pn = new Point(0, 0);
+                                        Group group = new Group(pn);
 
                                         groupList[tabCount - 1].Add(group);
                                         group.SetParent(groupList[tabCount - 1]);
-                                        groupList[tabCount - 1].SetX(po.X);
-                                        groupList[tabCount - 1].SetY(po.Y);
                                         groupList.Add(group);
                                     }
                                 }
