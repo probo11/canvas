@@ -54,7 +54,7 @@ namespace canvas
 
         public void Undo()
         {
-            //
+            // Deze hebben we leeg gelaten omdat het verwarrend kan zijn wanneer je op "undo" drukt en er dan niks lijkt te gebeuren
         }
     }
 }

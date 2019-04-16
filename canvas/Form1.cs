@@ -58,7 +58,6 @@ namespace canvas
                 {
                     Group sh = (Group)shape;
 
-
                     foreach (var ding in sh.GetChildren())
                     {
                         inv.DoAction(new IncreaseShapeSize(ding));
