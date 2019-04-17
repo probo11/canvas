@@ -164,7 +164,14 @@ namespace canvas
                 {
                     if (a)
                     {
-                        selectedList.Add(item.GetParent());
+                        if (item.GetParent() == null)
+                        {
+                            selectedList.Add(item);
+                        }
+                        else
+                        {
+                            selectedList.Add(item.GetParent());
+                        }
                     }
                 }
             }
