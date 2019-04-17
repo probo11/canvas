@@ -159,7 +159,7 @@ namespace canvas
                 {
                     if (a)
                     {
-                        selectedList.Add(item);
+                        selectedList.Add(item.GetParent());
                     }
                 }
             }
