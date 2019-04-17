@@ -71,6 +71,7 @@
     <Compile Include="Strats\RectangleStrategy.cs" />
     <Compile Include="Strats\IStrategy.cs" />
     <Compile Include="Visitor\IVisitor.cs" />
+    <Compile Include="Visitor\ResizeVisitor.cs" />
     <Compile Include="Visitor\SaveVisitor.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

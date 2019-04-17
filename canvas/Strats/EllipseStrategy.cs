@@ -9,12 +9,7 @@ namespace canvas
 {
     class EllipseStrategy : IStrategy
     {
-
-
-        public EllipseStrategy( )
-        {
-
-        }
+        public EllipseStrategy( ){}
 
         public void Execute(Figure f)
         {

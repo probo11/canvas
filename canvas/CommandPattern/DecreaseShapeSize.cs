@@ -17,16 +17,16 @@ namespace canvas
 
         public void Execute()
         {
-            shape.SetHeight(shape.GetHeight() - 5);
-            shape.SetWidth(shape.GetWidth() - 5);
+            ResizeVisitor rv = new ResizeVisitor(false);
+            shape.Accept(rv);
             Singleton.AddAction(this);
         }
 
         public void Undo()
         {
-            shape.SetHeight(shape.GetHeight() + 5);
-            shape.SetWidth(shape.GetWidth() + 5);
-            Singleton.RemoveAction(this);
+            ResizeVisitor rv = new ResizeVisitor(true);
+            shape.Accept(rv);
+            Singleton.AddAction(this);
         }
     }
 }

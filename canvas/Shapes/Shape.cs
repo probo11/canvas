@@ -68,6 +68,16 @@ namespace canvas
             p.Y = y;
         }
 
+        public Point GetPoint()
+        {
+            return p;
+        }
+
+        public void SetPoint(Point p)
+        {
+            this.p = p;
+        }
+
         public void SetHeight(int height)
         {
             this.height = height;
