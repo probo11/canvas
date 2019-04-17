@@ -8,6 +8,6 @@ namespace canvas
 {
     interface IStrategy
     {
-        void Execute(Figure f);
+        void Execute(Figure f, bool ean);
     }
 }

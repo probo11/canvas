@@ -15,13 +15,9 @@ namespace canvas
             
         }
 
-        public void Execute(Figure f)
+        public void Execute(Figure f, bool ean)
         {
-            if (Singleton.getSelectedList().Contains(f.GetParent()))
-            {
-                Singleton.GetCanvas().DrawRectangle(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
-            }
-            else if (Singleton.getSelectedList().Contains(f))
+            if (ean)
             {
                 Singleton.GetCanvas().DrawRectangle(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
             }
@@ -29,6 +25,18 @@ namespace canvas
             {
                 Singleton.GetCanvas().DrawRectangle(Singleton.GetPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
             }
+            //if (Singleton.getSelectedList().Contains(f.GetParent()))
+            //{
+            //    Singleton.GetCanvas().DrawRectangle(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
+            //}
+            //else if (Singleton.getSelectedList().Contains(f))
+            //{
+            //    Singleton.GetCanvas().DrawRectangle(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
+            //}
+            //else
+            //{
+            //    Singleton.GetCanvas().DrawRectangle(Singleton.GetPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
+            //}
         }
     }
 }

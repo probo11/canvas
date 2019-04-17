@@ -38,12 +38,12 @@ namespace canvas
             if (isRectangle)
             {
                 RectangleStrategy re = new RectangleStrategy();
-                re.Execute(this);
+                re.Execute(this, this.GetSelected());
             }
             else
             {
                 EllipseStrategy es = new EllipseStrategy();
-                es.Execute(this);
+                es.Execute(this, GetSelected());
             }
         }
     }

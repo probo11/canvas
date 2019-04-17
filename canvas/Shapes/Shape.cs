@@ -13,12 +13,23 @@ namespace canvas
         private int width;
         private int height;
         private Group parent;
+        private bool selected = false;
 
         public Shape(Point p, int width, int height)
         {
             this.p = p;
             this.width = width;
             this.height = height;
+        }
+
+        public bool GetSelected()
+        {
+            return selected;
+        }
+
+        public void SetSelected(bool ean)
+        {
+            selected = ean;
         }
 
         public virtual void Accept(IVisitor v)
