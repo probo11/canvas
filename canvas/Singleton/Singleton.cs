@@ -99,6 +99,7 @@ namespace canvas
 
         public static void ClearSelectedList()
         {
+            selectItems(selectedList, false);
             selectedList.Clear();
         }
 
@@ -142,6 +143,26 @@ namespace canvas
         public static void SetCanvas(Graphics g)
         {
             canvas = g;
+        }
+
+        public static void selectItems(List<Shape> s, bool a)
+        {
+            foreach (var item in s)
+            {
+                item.SetSelected(a);
+                if (item.GetShapeType() == "group")
+                {
+                    Group g = (Group)item;
+                    selectItems(g.GetChildren(), a);
+                }
+                else
+                {
+                    if (a)
+                    {
+                        selectedList.Add(item);
+                    }
+                }
+            }
         }
     }
 }

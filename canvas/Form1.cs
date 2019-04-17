@@ -69,7 +69,7 @@ namespace canvas
                 }
 
                 Singleton.EmptyRedoList();
-             
+
 
             }
             RefreshCanvas();
@@ -170,56 +170,21 @@ namespace canvas
                     inv.DoAction(new CreateFigure(new Figure(tempPoint, e.Location.X - tempPoint.X, e.Location.Y - tempPoint.Y, false)));
                     break;
                 case 2://select
+                    List<Shape> list = new List<Shape>();
                     foreach (var shape in Singleton.GetDrawnShapes())
                     {
                         if (e.X >= shape.GetX() && e.X <= shape.GetX() + shape.GetWidth())
                         {
                             if (e.Y >= shape.GetY() && e.Y <= shape.GetY() + shape.GetHeight())
                             {
-                                bool isInSelectedList = false;
-
-                                if (shape.GetShapeType() == "figure")
+                                list.Add(shape);
+                                if (shape.GetSelected() == true)
                                 {
-                                    foreach (Shape thing in Singleton.getSelectedList())
-                                    {
-                                        if (thing == shape)
-                                        {
-                                            isInSelectedList = true;
-                                            break;
-                                        }
-                                    }
-                                    if (isInSelectedList)
-                                    {
-                                        Singleton.RemoveFromSelectedList(shape);
-                                    }
-                                    else
-                                    {
-                                        Singleton.AddToSelectedList(shape);
-                                    }
+                                    Singleton.selectItems(list, false);
                                 }
                                 else
                                 {
-                                    var group = (Group)shape;
-
-
-                                    foreach (Shape thing in Singleton.getSelectedList())
-                                    {
-                                        if (thing == shape)
-                                        {
-                                            isInSelectedList = true;
-                                            break;
-                                        }
-                                    }
-
-                                    if (isInSelectedList)
-                                    {
-                                        Singleton.RemoveFromSelectedList(group);
-                                    }
-                                    else
-                                    {
-                                        Singleton.AddToSelectedList(group);
-                                    }
-
+                                    Singleton.selectItems(list, true);
                                 }
                                 EnableButtons();
                             }
@@ -242,20 +207,20 @@ namespace canvas
                     }
                     foreach (var shape in Singleton.getSelectedList())
                     {
-                        if (shape.GetShapeType() == "group" )
+                        if (shape.GetShapeType() == "group")
                         {
                             Group sh = (Group)shape;
 
 
-                            foreach(var ding in sh.GetChildren())
+                            foreach (var ding in sh.GetChildren())
                             {
                                 inv.DoAction(new MoveShape(ding, e.X, e.Y, leftX, leftY));
                             }
                         }
-                            inv.DoAction(new MoveShape(shape, e.X, e.Y, leftX, leftY));
-                        
+                        inv.DoAction(new MoveShape(shape, e.X, e.Y, leftX, leftY));
+
                         Singleton.EmptyRedoList();
-                        
+
                     }
                     Singleton.ClearSelectedList();
                     DisableButtons();
@@ -344,5 +309,7 @@ namespace canvas
             DeselectAll();
             DisableButtons();
         }
+
+        
     }
 }
