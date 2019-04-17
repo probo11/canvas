@@ -8,7 +8,7 @@ namespace canvas
 {
     class ResizeVisitor : IVisitor
     {
-        bool increaseSize;
+        bool increaseSize; // true = increase
 
         public ResizeVisitor(bool b)
         {

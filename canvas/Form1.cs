@@ -191,7 +191,7 @@ namespace canvas
                         }
                     }
                     break;
-                case 3:
+                case 3: // move
                     int leftX = 10000;
                     int leftY = 10000;
                     foreach (var item in Singleton.getSelectedList())

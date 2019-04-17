@@ -36,15 +36,6 @@ namespace canvas
 
         public void Execute()
         {
-            //shape.SetX(oldX - Math.Abs(x - mostLeftX));
-            //if (oldY > y)
-            //{
-            //    shape.SetY(oldY - Math.Abs(y - mostLeftY));
-            //}
-            string a = $"X: {x}\nY: {y}\noldX: {oldX}\noldY: {oldY}\nmostLeftX: {mostLeftX}\nmostLeftY: {mostUpY}";
-            string b = $"x - mostLeftX: {Math.Abs(x - mostLeftX)}\ny - mostUpY: {Math.Abs(y - mostUpY)}";
-            //MessageBox.Show(a + "\n" + b);
-
             int transitionX = Math.Abs(x - mostLeftX);
             int transitionY = Math.Abs(y - mostUpY);
 

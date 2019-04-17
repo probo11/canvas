@@ -145,6 +145,11 @@ namespace canvas
             canvas = g;
         }
 
+        /// <summary>
+        /// Sets for every item in the list the Selected value
+        /// </summary>
+        /// <param name="s">list</param>
+        /// <param name="a">value</param>
         public static void selectItems(List<Shape> s, bool a)
         {
             foreach (var item in s)

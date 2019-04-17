@@ -13,6 +13,7 @@ namespace canvas
 
         public void Execute(Figure f, bool ean)
         {
+            // checks if figure is selected
             if (ean)
             {
                 Singleton.GetCanvas().DrawEllipse(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
@@ -21,19 +22,6 @@ namespace canvas
             {
                 Singleton.GetCanvas().DrawEllipse(Singleton.GetPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
             }
-            //if (Singleton.getSelectedList().Contains(f.GetParent()))
-            //{
-            //    Singleton.GetCanvas().DrawEllipse(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
-            //}
-            //else if (Singleton.getSelectedList().Contains(f))
-            //{
-            //    Singleton.GetCanvas().DrawEllipse(Singleton.GetSelectedPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
-            //}
-            //else
-            //{
-            //    Singleton.GetCanvas().DrawEllipse(Singleton.GetPen(), f.GetX(), f.GetY(), f.GetWidth(), f.GetHeight());
-            //}
-          
         }
     }
 }
